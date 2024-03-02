@@ -35,69 +35,69 @@ show_text = [0]
 ''' Class for calculating FPS while streaming. Used this to check performance of using another thread for video streaming '''
 
 
-# class FPS:
-#     def __init__(self):
-#         # store the start time, end time, and total number of frames
-#         # that were examined between the start and end intervals
-#         self._start = None
-#         self._end = None
-#         self._numFrames = 0
+class FPS:
+    def __init__(self):
+        # store the start time, end time, and total number of frames
+        # that were examined between the start and end intervals
+        self._start = None
+        self._end = None
+        self._numFrames = 0
 
-#     def start(self):
-#         # start the timer
-#         self._start = datetime.datetime.now()
-#         return self
+    def start(self):
+        # start the timer
+        self._start = datetime.datetime.now()
+        return self
 
-#     def stop(self):
-#         # stop the timer
-#         self._end = datetime.datetime.now()
+    def stop(self):
+        # stop the timer
+        self._end = datetime.datetime.now()
 
-#     def update(self):
-#         # increment the total number of frames examined during the
-#         # start and end intervals
-#         self._numFrames += 1
+    def update(self):
+        # increment the total number of frames examined during the
+        # start and end intervals
+        self._numFrames += 1
 
-#     def elapsed(self):
-#         # return the total number of seconds between the start and
-#         # end interval
-#         return (self._end - self._start).total_seconds()
+    def elapsed(self):
+        # return the total number of seconds between the start and
+        # end interval
+        return (self._end - self._start).total_seconds()
 
-#     def fps(self):
-#         # compute the (approximate) frames per second
-#         return self._numFrames / self.elapsed()
+    def fps(self):
+        # compute the (approximate) frames per second
+        return self._numFrames / self.elapsed()
 
 
 ''' Class for using another thread for video streaming to boost performance '''
 
 
-# class WebcamVideoStream:
+class WebcamVideoStream:
 
-#     def __init__(self, src=0):
-#         self.stream = cv2.VideoCapture(src, cv2.CAP_DSHOW)
-#         (self.grabbed, self.frame) = self.stream.read()
-#         self.stopped = False
+    def __init__(self, src=0):
+        self.stream = cv2.VideoCapture(src, cv2.CAP_DSHOW)
+        (self.grabbed, self.frame) = self.stream.read()
+        self.stopped = False
 
-#     def start(self):
-#         # start the thread to read frames from the video stream
-#         Thread(target=self.update, args=()).start()
-#         return self
+    def start(self):
+        # start the thread to read frames from the video stream
+        Thread(target=self.update, args=()).start()
+        return self
 
-#     def update(self):
-#         # keep looping infinitely until the thread is stopped
-#         while True:
-#             # if the thread indicator variable is set, stop the thread
-#             if self.stopped:
-#                 return
-#             # otherwise, read the next frame from the stream
-#             (self.grabbed, self.frame) = self.stream.read()
+    def update(self):
+        # keep looping infinitely until the thread is stopped
+        while True:
+            # if the thread indicator variable is set, stop the thread
+            if self.stopped:
+                return
+            # otherwise, read the next frame from the stream
+            (self.grabbed, self.frame) = self.stream.read()
 
-#     def read(self):
-#         # return the frame most recently read
-#         return self.frame
+    def read(self):
+        # return the frame most recently read
+        return self.frame
 
-#     def stop(self):
-#         # indicate that the thread should be stopped
-#         self.stopped = True
+    def stop(self):
+        # indicate that the thread should be stopped
+        self.stopped = True
 
 
 ''' Class for reading video stream, generating prediction and recommendations '''
@@ -111,8 +111,8 @@ class VideoCamera(object):
         json_file = open('emotion_model.json', 'r')
         loaded_model_json = json_file.read()
         json_file.close()
-        cap1 = cv2.VideoCapture(0)
-        ret, frame = cap1.read()
+        cap1 = WebcamVideoStream(src=0)
+        frame = cap1.read()
         image = cv2.resize(frame, (600, 500))
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)
