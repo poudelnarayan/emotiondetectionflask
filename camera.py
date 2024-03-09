@@ -2,22 +2,11 @@ import numpy as np
 import cv2
 import math
 from PIL import Image
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from pandastable import Table, TableModel
 from tensorflow.keras.preprocessing import image
 from keras.models import model_from_json
-import datetime
-from threading import Thread
 # from Spotipy import *
-import time
 import pandas as pd
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-ds_factor = 0.6
 
 
 cv2.ocl.setUseOpenCL(False)
